@@ -1,14 +1,26 @@
 export function renderTodo(todo, handleComplete) {
-    // create a div and a p tag
-    // depending on whether the todo is complete, give the div the appropriate css class ('complete' or 'incomplete')
 
-    // add the 'todo' css class no matter what
+    const todoListEl = document.createElement('div');
+    todoListEl.classList.add('todo');
+    const todoListTask = document.createElement('p');
+        // create a div and a p tag
+        // depending on whether the todo is complete, give the div the appropriate css class ('complete' or 'incomplete')
+        
+        // add the 'todo' css class no matter what
+    todoListTask.textContent = `${todo.todo}`;
 
-    // put the todo's text into the p tag
+    todoListEl.addEventListener('click', () => {
+        handleComplete(todo);
+    });
 
-    // append stuff
+    if (todo.complete) {
+        todoListEl.classList.add('complete');
+    } else {
+        todoListEl.classList.add('incomplete');
+    }
 
-    // add event listener for click and call handleComplete function
-    
-    // return the div
+    todoListEl.append(todoListTask);
+        
+    return todoListEl;
+
 }
