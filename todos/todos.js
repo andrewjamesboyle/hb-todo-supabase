@@ -8,30 +8,25 @@ import {
 } from '../fetch-utils.js';
 import { renderTodo } from '../render-utils.js';
 
-// checkAuth();
+checkAuth();
 
 const todosEl = document.querySelector('.todos');
 const todoForm = document.querySelector('.todo-form');
 const logoutButton = document.querySelector('#logout');
 const deleteButton = document.querySelector('.delete-button');
 
-const todo = {
-    task: ''
-};
-
 todoForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const newTask = new FormData(todoForm);
-
-    todo.task = newTask.get('todo');
-
-    console.log(todo.task);
+    const data = new FormData(todoForm);
+    const todo = data.get('todo');
+    
+    await createTodo(todo);
 
     todoForm.reset();
 
     displayTodos();
-    // on submit, create a todo, reset the form, and display the todos
+   
 });
 
 // create todo state
@@ -47,10 +42,12 @@ async function displayTodos() {
     // clear the container (.innerHTML = '')
     todosEl.innerHTML = '';
 
-    const todoList = renderTodo(todo);
-    console.log(todoList);
+    const todos = await getTodos();
 
-    todosEl.append(todoList);
+    for (let todo of todos) {
+        const todoList = renderTodo(todo);
+        todosEl.append(todoList);
+    }
     // display the list of todos, 
           // call render function, pass in state and complete handler function! renderTask(task, handleComplete)
 

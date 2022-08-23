@@ -5,9 +5,11 @@ const SUPABASE_KEY =
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export async function createTodo(todo) {
-    // create a single incomplete todo with the correct 'todo' property for this user in supabase
+    return await client.from('todos').insert({ 
+        todo: todo, 
+        complete: false, 
+        user_id: client.auth.user().id }).single();
 
-    return checkError(response);
 }
 
 export async function deleteAllTodos() {
@@ -17,6 +19,7 @@ export async function deleteAllTodos() {
 }
 
 export async function getTodos() {
+    const response = await client.from('todos').select('*');
     // get all todos for this user from supabase
 
     return checkError(response);
